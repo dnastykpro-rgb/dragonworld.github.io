@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DragonWorld — Официальный сайт Minecraft сервера</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --bg-sec: #f8fafc;
+            --card: #ffffff;
+            --nav-bg: rgba(255, 255, 255, 0.88);
+            --text: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+            --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+            --btn-bg: #f1f5f9;
+            --btn-text: #0f172a;
+            --input-bg: #f8fafc;
+            --art-bg: #f1f5f9;
+        }
+
+        body.dark {
+            --bg: #09090b;
+            --bg-sec: #121215;
+            --card: #141418;
+            --nav-bg: rgba(9, 9, 11, 0.88);
+            --text: #f8fafc;
+            --text-muted: #a1a1aa;
+            --border: #27272a;
+            --shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
+            --btn-bg: #1f1f24;
+            --btn-text: #f8fafc;
+            --input-bg: #09090b;
+            --art-bg: #1b1b22;
+        }
+
+        *{box-sizing:border-box;margin:0;padding:0;scroll-behavior:smooth}
+        body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background 0.25s ease,color 0.25s ease}
+        a{text-decoration:none;color:inherit}
+
+        button, .btn-link {
+            font-family:inherit;
+            background:var(--btn-bg);
+            color:var(--btn-text);
+            border:1px solid var(--border);
+            border-radius:11px;
+            font-weight:700;
+            cursor:pointer;
+            transition:all 0.22s ease;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:6px;
+        }
+        button:hover, .btn-link:hover {
+            background:#f97316 !important;
+            border-color:#ea580c !important;
+            color:#ffffff !important;
+            transform:translateY(-2px);
+            box-shadow:0 8px 22px rgba(249, 115, 22, 0.42) !important;
+        }
+
+        nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:background 0.25s,border-color 0.25s}
+        .nav-in{max-width:1140px;margin:0 auto;padding:13px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+        .brand{font-family:'Cinzel Decorative',serif;font-weight:900;font-size:1.35rem;color:var(--text)}
+        .brand span{color:#f97316}
+        .nav-links{display:flex;gap:14px;font-size:0.86rem;font-weight:600;color:var(--text-muted);flex-wrap:wrap;align-items:center}
+        .nav-links a:hover{color:#f97316}
+        .nav-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+        .soc-pill{padding:7px 12px;font-size:0.8rem}
+        .theme-btn{padding:7px 13px;font-size:0.82rem}
+        .ip-btn{background:#18181b;color:#ffffff;border-color:#27272a;padding:8px 16px;font-size:0.83rem}
+        body.dark .ip-btn{background:#27272a;border-color:#3f3f46}
+        .hero{max-width:1050px;margin:0 auto;padding:60px 20px 44px;text-align:center}
+        .status-pill{display:inline-flex;align-items:center;gap:8px;background:var(--bg-sec);border:1px solid var(--border);padding:7px 16px;border-radius:99px;font-size:0.84rem;font-weight:600;margin-bottom:18px}
+        .dot{width:9px;height:9px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e}
+        .dot.off{background:#ef4444;box-shadow:0 0 8px #ef4444}
+        .hero h1{font-family:'Cinzel Decorative',serif;font-size:clamp(2.6rem,7vw,4.7rem);line-height:1.1;margin-bottom:14px;color:var(--text)}
+        .hero h1 span{color:#f97316}
+        .hero p{max-width:620px;margin:0 auto 28px;color:var(--text-muted);font-size:1.02rem;line-height:1.6}
+        .hero-btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+        .btn-main{background:#18181b;color:#ffffff;border-color:#18181b;padding:14px 26px;font-size:0.94rem}
+        body.dark .btn-main{background:#f8fafc;color:#09090b;border-color:#f8fafc}
+        .btn-sec{padding:14px 24px;font-size:0.94rem}
+
+        section{max-width:1140px;margin:0 auto;padding:40px 20px}
+        .sec-title{text-align:center;font-size:1.9rem;font-weight:800;margin-bottom:8px;color:var(--text)}
+        .sec-sub{text-align:center;color:var(--text-muted);font-size:0.92rem;margin-bottom:28px}
+        .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}
+        .grid-donate{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:18px}
+        .box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:var(--shadow);transition:transform 0.25s,border-color 0.25s,background 0.25s}
+        .box:hover{border-color:#f97316;transform:translateY(-4px)}
+        .mode-icon{font-size:1.85rem;margin-bottom:10px;display:inline-block}
+        .box h3{font-size:1.15rem;font-weight:800;margin-bottom:6px;color:var(--text)}
+        .box p{font-size:0.86rem;color:var(--text-muted);line-height:1.55}
+
+        /* Плашки доната с мультяшным 3D-персонажем сверху */
+        .donate-card{display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;border-top:4px solid var(--rc,#f97316);padding:16px}
+        .art-wrap{width:100%;height:125px;border-radius:14px;background:radial-gradient(circle at 50% 65%,var(--rc-soft,rgba(249,115,22,0.18)),var(--art-bg) 75%);display:flex;align-items:center;justify-content:center;margin-bottom:12px;border:1px solid var(--border);position:relative;overflow:hidden}
+        .art-wrap canvas{transition:transform 0.3s ease}
+        .donate-card:hover .art-wrap canvas{transform:scale(1.08) translateY(-3px)}
+        .rank-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+        .rank-badge{display:inline-block;padding:4px 10px;border-radius:8px;font-size:0.74rem;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:#fff;background:var(--rc,#f97316)}
+        .season-tag{font-size:0.7rem;font-weight:700;color:var(--text-muted);background:var(--bg-sec);border:1px solid var(--border);padding:2px 7px;border-radius:6px}
+        .price{font-size:1.65rem;font-weight:800;color:var(--text);margin:2px 0 10px}
+        .price span{font-size:0.78rem;font-weight:600;color:var(--text-muted)}
+        .perks{list-style:none;display:flex;flex-direction:column;gap:5px;margin-bottom:16px;font-size:0.81rem;color:var(--text-muted)}
+        .perks li::before{content:"• ";color:#f97316;font-weight:900}
+        .buy-btn{width:100%;padding:11px;font-size:0.88rem}
+
+        .client-banner{background:var(--bg-sec);border:1px solid var(--border);border-radius:24px;padding:30px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;box-shadow:var(--shadow)}
+        .client-banner h2{font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--text)}
+        .client-banner p{color:var(--text-muted);font-size:0.92rem;max-width:560px;line-height:1.55}
+
+        .rule-row{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start;font-size:0.88rem;color:var(--text-muted);box-shadow:var(--shadow)}
+        .rule-num{background:#f97316;color:#fff;font-weight:800;padding:3px 9px;border-radius:7px;font-size:0.78rem;flex-shrink:0}
+
+        .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:99;padding:16px}
+        .modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;width:100%;max-width:410px;box-shadow:0 20px 50px rgba(0,0,0,0.4)}
+        .modal h3{font-size:1.25rem;margin-bottom:6px;color:var(--text)}
+        .modal p{font-size:0.85rem;color:var(--text-muted);margin-bottom:14px}
+        .modal input{width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--text);padding:11px 14px;border-radius:10px;margin-bottom:12px;font-family:inherit;outline:none}
+        .modal input:focus{border-color:#f97316}
+        .modal-acts{display:flex;gap:8px;flex-wrap:wrap}
+
+        .toast{position:fixed;bottom:22px;right:22px;background:#f97316;color:#fff;padding:12px 20px;border-radius:12px;font-weight:700;font-size:0.88rem;box-shadow:0 10px 30px rgba(249,115,22,0.45);transform:translateY(100px);opacity:0;transition:0.3s;z-index:100}
+        .toast.show{transform:translateY(0);opacity:1}
+
+        .foot-links{display:flex;justify-content:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+        footer{border-top:1px solid var(--border);padding:26px 20px;text-align:center;color:var(--text-muted);font-size:0.84rem;margin-top:30px}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-in">
+            <a href="#" class="brand">DRAGON<span>WORLD</span></a>
+            <div class="nav-links">
+                <a href="#modes">Режимы</a>
+                <a href="#donate">Донат</a>
+                <a href="#client">DragonVisuals</a>
+                <a href="#rules">Правила</a>
+            </div>
+            <div class="nav-actions">
+                <a href="https://t.me" target="_blank" class="btn-link soc-pill">Telegram</a>
+                <a href="https://vk.ru" target="_blank" class="btn-link soc-pill">ВК</a>
+                <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙 Чёрный</button>
+                <button class="ip-btn" onclick="copyIp()">📋 <span id="navIpText">178.72.132.172:25162</span></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="status-pill">
+            <span class="dot" id="statusDot"></span>
+            <span id="onlineText">Загрузка онлайна сервера...</span>
+        </div>
+        <h1>Dragon<span>World</span></h1>
+        <p>Уникальный игровой мир Minecraft 1.21.4 с кастомными ивентами, честным PvP, отзывчивой администрацией и полной поддержкой клиента <b>DragonVisuals</b>.</p>
+        <div class="hero-btns">
+            <button class="btn-main" onclick="copyIp()">▶ Скопировать IP: 178.72.132.172:25162</button>
+            <a href="#donate" class="btn-link btn-sec">👑 Магазин привилегий</a>
+        </div>
+    </div>
+
+    <section id="modes">
+        <h2 class="sec-title">Игровые режимы</h2>
+        <p class="sec-sub">Выбирай свой стиль игры на DragonWorld</p>
+        <div class="grid-3">
+            <div class="box">
+                <span class="mode-icon">⚔️</span>
+                <h3>Анархия и Гриф</h3>
+                <p>Полная свобода действий: рейды баз, клановые войны, уникальные талисманы, мистические сундуки и регулярные аирдропы с ценным лутом.</p>
+            </div>
+            <div class="box">
+                <span class="mode-icon">🏰</span>
+                <h3>Выживание 1.21.4</h3>
+                <p>Уютное классическое выживание с приватами, экономикой, аукционом игроков, работами и красивыми постройками без вайпов.</p>
+            </div>
+            <div class="box">
+                <span class="mode-icon">🔥</span>
+                <h3>PvP Арена и Дуэли</h3>
+                <p>Честные сражения 1 на 1 и королевские битвы с рейтингом лучших бойцов сервера и сезонными наградами для победителей.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="donate">
+        <h2 class="sec-title">Привилегии и Донат</h2>
+        <p class="sec-sub">Все 13 рангов сервера DragonWorld — выбери свой статус</p>
+        <div class="grid-donate" id="donateGrid"></div>
+    </section>
+
+    <section id="client">
+        <div class="client-banner">
+            <div>
+                <h2>✦ Фирменный клиент DragonVisuals 1.21.4</h2>
+                <p>Играй на DragonWorld с максимальным комфортом: плавный ClickGui, 3D Katana, TargetESP, TargetHUD и облачные конфиги в нашем официальном лаунчере.</p>
+            </div>
+            <a href="https://github.io" target="_blank" class="btn-link btn-main">Скачать DragonVisuals →</a>
+        </div>
+    </section>
+
+    <section id="rules">
+        <h2 class="sec-title">Основные правила</h2>
+        <p class="sec-sub">Соблюдение правил делает игру честной и приятной для всех</p>
+        <div class="rule-row"><span class="rule-num">1.1</span><span>Запрещено использование читов, кликеров и стороннего ПО, дающего преимущество в бою (визуальный мод DragonVisuals полностью разрешён).</span></div>
+        <div class="rule-row"><span class="rule-num">1.2</span><span>Запрещены оскорбления игроков, спам, флуд и реклама сторонних ресурсов в общем чате.</span></div>
+        <div class="rule-row"><span class="rule-num">1.3</span><span>Запрещён багоюз, дюп ресурсов и попытки навредить стабильной работе сервера DragonWorld.</span></div>
+    </section>
+    <div class="modal-bg" id="buyModal" onclick="if(event.target===this) closeBuy()">
+        <div class="modal">
+            <h3 id="buyTitle">Покупка привилегии</h3>
+            <p id="buyDesc">Введите ваш игровой никнейм на сервере DragonWorld, чтобы оформить покупку в Telegram или ВКонтакте.</p>
+            <input type="text" id="buyNick" placeholder="Ваш ник в Minecraft (напр. Bratellaly)">
+            <div class="modal-acts">
+                <button style="flex:1;padding:10px" onclick="confirmBuy('tg')">Написать в Telegram</button>
+                <button style="flex:1;padding:10px" onclick="confirmBuy('vk')">Открыть ВК Канал</button>
+            </div>
+            <button style="width:100%;margin-top:8px;padding:9px" onclick="closeBuy()">Отмена</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">IP адрес скопирован в буфер обмена!</div>
+
+    <footer>
+        <div class="foot-links">
+            <a href="https://t.me" target="_blank" class="btn-link soc-pill">Telegram: @DragonWorldminecraft</a>
+            <a href="https://vk.ru" target="_blank" class="btn-link soc-pill">Канал ВКонтакте</a>
+            <a href="https://github.io" target="_blank" class="btn-link soc-pill">Клиент DragonVisuals</a>
+        </div>
+        © 2026 DragonWorld Minecraft Server • IP: 178.72.132.172:25162 • Не является официальным продуктом Mojang.
+    </footer>
+
+    <script>
+        const SERVER_IP = "178.72.132.172:25162";
+        const TG_LINK = "https://t.me";
+        const VK_LINK = "https://vk.ru";
+
+        // Все 13 привилегий с твоего LuckPerms (можешь менять цены и описания под себя):
+        const DONATES = [
+            { id: "hero", name: "HERO", price: "39 ₽", color: "#22c55e", eye: "#16a34a", hat: "band", perks: ["Префикс [Hero] в чате", "Набор /kit hero", "3 точки дома (/sethome)", "Верстак /workbench"] },
+            { id: "titan", name: "TITAN", price: "69 ₽", color: "#3b82f6", eye: "#2563eb", hat: "helmet", perks: ["Префикс [Titan] в чате", "Набор /kit titan", "4 точки дома + /feed", "Эндер-сундук /enderchest"] },
+            { id: "prince", name: "PRINCE", price: "119 ₽", color: "#eab308", eye: "#ca8a04", hat: "crown", perks: ["Золотой префикс [Prince]", "Набор /kit prince", "5 точек дома + /heal", "Поиск игроков /near"] },
+            { id: "phoenix", name: "PHOENIX", price: "169 ₽", color: "#f97316", eye: "#ea580c", hat: "horns", perks: ["Огненный [Phoenix]", "Набор /kit phoenix", "6 точек дома + /fly в лобби", "Починка /repair"] },
+            { id: "overlord", name: "OVERLORD", price: "249 ₽", color: "#ef4444", eye: "#dc2626", hat: "crown", perks: ["Мощный [Overlord]", "Набор /kit overlord", "8 точек дома + /god в лобби", "VIP в DragonVisuals!"] },
+            { id: "guardian", name: "GUARDIAN", price: "329 ₽", color: "#14b8a6", eye: "#0d9488", hat: "helmet", perks: ["Префикс [Guardian]", "Набор /kit guardian", "10 точек дома + /ext", "Защита от потери опыта"] },
+            { id: "kratos", name: "KRATOS", price: "449 ₽", color: "#b91c1c", eye: "#ef4444", hat: "band", perks: ["Легендарный [Kratos]", "Набор /kit kratos", "12 точек дома + /repair all", "Уникальный след стрел"] },
+            { id: "phantom", name: "PHANTOM", price: "599 ₽", color: "#8b5cf6", eye: "#a855f7", hat: "hood", perks: ["Теневой [Phantom]", "Набор /kit phantom", "15 точек дома + /vanish", "VIP в DragonVisuals!"] },
+            { id: "summer", name: "SUMMER", price: "699 ₽", season: "Сезонный", color: "#f59e0b", eye: "#0284c7", hat: "glasses", perks: ["Солнечный [Summer]", "Эксклюзивный /kit summer", "Пляжные частицы и эффекты", "Все права Phantom"] },
+            { id: "winter", name: "WINTER", price: "699 ₽", season: "Сезонный", color: "#38bdf8", eye: "#0284c7", hat: "ushanka", perks: ["Морозный [Winter]", "Эксклюзивный /kit winter", "Снежная аура вокруг игрока", "Все права Phantom"] },
+            { id: "sakura", name: "SAKURA", price: "699 ₽", season: "Сезонный", color: "#ec4899", eye: "#db2777", hat: "flower", perks: ["Нежный [Sakura]", "Эксклюзивный /kit sakura", "След из лепестков сакуры", "Все права Phantom"] },
+            { id: "halloween", name: "HALLOWEEN", price: "699 ₽", season: "Сезонный", color: "#ea580c", eye: "#facc15", hat: "pumpkin", perks: ["Мистический [Halloween]", "Эксклюзивный /kit halloween", "Аура летучих мышей", "Все права Phantom"] },
+            { id: "custom", name: "CUSTOM", price: "999 ₽", season: "Максимум", color: "#d946ef", eye: "#f43f5e", hat: "crown", perks: ["Свой личный префикс!", "Максимальный /kit custom", "25 точек дома + все команды", "VIP в DragonVisuals навсегда!"] }
+        ];
+        // Рисуем объёмного мультяшного Minecraft-персонажа на Canvas для каждой привилегии
+        function drawCartoonChar(canvas, item) {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 140, 115);
+
+            // Тень снизу
+            ctx.fillStyle = "rgba(0,0,0,0.16)";
+            ctx.beginPath();
+            ctx.ellipse(70, 104, 28, 6, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Тело / броня в цвет привилегии
+            ctx.fillStyle = item.color;
+            ctx.beginPath();
+            ctx.roundRect(47, 68, 46, 30, 6);
+            ctx.fill();
+            ctx.fillStyle = "rgba(255,255,255,0.22)";
+            ctx.fillRect(51, 71, 16, 24);
+
+            // Голова персонажа (мультяшный 3D-блок с бликом)
+            ctx.fillStyle = "#f5c29b";
+            ctx.beginPath();
+            ctx.roundRect(42, 22, 56, 50, 9);
+            ctx.fill();
+            ctx.fillStyle = "rgba(255,255,255,0.28)";
+            ctx.fillRect(45, 25, 22, 44);
+            ctx.strokeStyle = "rgba(0,0,0,0.18)";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Волосы / капюшон
+            ctx.fillStyle = item.id === "kratos" ? "#e2e8f0" : (item.hat === "hood" ? "#1e1b4b" : "#3b2314");
+            ctx.beginPath();
+            ctx.roundRect(41, 20, 58, 15, [9, 9, 2, 2]);
+            ctx.fill();
+
+            // Большие мультяшные глаза с бликами
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(49, 44, 15, 11);
+            ctx.fillRect(76, 44, 15, 11);
+            ctx.fillStyle = item.eye;
+            ctx.fillRect(54, 44, 9, 11);
+            ctx.fillRect(77, 44, 9, 11);
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(55, 45, 3, 3);
+            ctx.fillRect(78, 45, 3, 3);
+
+            // Улыбка / ухмылка
+            ctx.fillStyle = "#9a5b3c";
+            ctx.fillRect(62, 61, 16, 4);
+
+            // Уникальный аксессуар каждой привилегии
+            if (item.hat === "crown") {
+                ctx.fillStyle = "#facc15";
+                ctx.beginPath();
+                ctx.moveTo(48, 21); ctx.lineTo(48, 9); ctx.lineTo(59, 16);
+                ctx.lineTo(70, 7); ctx.lineTo(81, 16); ctx.lineTo(92, 9);
+                ctx.lineTo(92, 21); ctx.closePath(); ctx.fill();
+            } else if (item.hat === "horns") {
+                ctx.fillStyle = "#f97316";
+                ctx.beginPath(); ctx.moveTo(43, 25); ctx.lineTo(34, 10); ctx.lineTo(50, 20); ctx.fill();
+                ctx.beginPath(); ctx.moveTo(97, 25); ctx.lineTo(106, 10); ctx.lineTo(90, 20); ctx.fill();
+            } else if (item.hat === "glasses") {
+                ctx.fillStyle = "#09090b";
+                ctx.fillRect(47, 43, 19, 12); ctx.fillRect(74, 43, 19, 12); ctx.fillRect(66, 46, 8, 3);
+            } else if (item.hat === "flower") {
+                ctx.fillStyle = "#f472b6";
+                ctx.beginPath(); ctx.arc(89, 24, 8, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = "#fef08a";
+                ctx.beginPath(); ctx.arc(89, 24, 3, 0, Math.PI * 2); ctx.fill();
+            } else if (item.hat === "pumpkin") {
+                ctx.fillStyle = "#ea580c";
+                ctx.beginPath(); ctx.roundRect(41, 19, 58, 53, 10); ctx.fill();
+                ctx.fillStyle = "#facc15";
+                ctx.fillRect(50, 40, 13, 9); ctx.fillRect(77, 40, 13, 9); ctx.fillRect(56, 56, 28, 6);
+            } else if (item.hat === "ushanka") {
+                ctx.fillStyle = "#38bdf8";
+                ctx.beginPath(); ctx.roundRect(39, 16, 62, 18, 8); ctx.fill();
+                ctx.fillRect(38, 30, 8, 22); ctx.fillRect(94, 30, 8, 22);
+            } else if (item.hat === "band") {
+                ctx.fillStyle = item.color;
+                ctx.fillRect(41, 31, 58, 6);
+            }
+        }
+
+        // Отрисовываем все 13 карточек доната
+        const grid = document.getElementById('donateGrid');
+        DONATES.forEach((item, idx) => {
+            const card = document.createElement('div');
+            card.className = 'box donate-card';
+            card.style.setProperty('--rc', item.color);
+            card.style.setProperty('--rc-soft', item.color + '33');
+            card.innerHTML = `
+                <div>
+                    <div class="art-wrap"><canvas id="char_${idx}" width="140" height="115"></canvas></div>
+                    <div class="rank-row">
+                        <span class="rank-badge">${item.name}</span>
+                        ${item.season ? `<span class="season-tag">${item.season}</span>` : ''}
+                    </div>
+                    <div class="price">${item.price} <span>/ навсегда</span></div>
+                    <ul class="perks">${item.perks.map(p => `<li>${p}</li>`).join('')}</ul>
+                </div>
+                <button class="buy-btn" onclick="openBuy('${item.name}', '${item.price}')">Купить ${item.name}</button>
+            `;
+            grid.appendChild(card);
+            drawCartoonChar(document.getElementById(`char_${idx}`), item);
+        });
+
+        document.getElementById('navIpText').innerText = SERVER_IP;
+        let selectedItem = "", selectedPrice = "";
+
+        function applyTheme(theme) {
+            const isDark = theme === 'dark';
+            document.body.classList.toggle('dark', isDark);
+            document.getElementById('themeBtn').innerText = isDark ? "☀️ Белый" : "🌙 Чёрный";
+        }
+
+        function toggleTheme() {
+            const next = document.body.classList.contains('dark') ? 'light' : 'dark';
+            localStorage.setItem('dw_theme', next);
+            applyTheme(next);
+        }
+        applyTheme(localStorage.getItem('dw_theme') || 'light');
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg; t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2600);
+        }
+
+        function copyIp() {
+            navigator.clipboard.writeText(SERVER_IP);
+            showToast("✓ IP скопирован: " + SERVER_IP);
+        }
+
+        function openBuy(item, price) {
+            selectedItem = item; selectedPrice = price;
+            document.getElementById('buyTitle').innerText = item + " — " + price;
+            document.getElementById('buyModal').style.display = 'flex';
+        }
+
+        function closeBuy() { document.getElementById('buyModal').style.display = 'none'; }
+
+        function confirmBuy(platform) {
+            const nick = document.getElementById('buyNick').value.trim();
+            if (nick.length < 3) return alert("Введите корректный игровой никнейм!");
+            const msg = "Привет! Хочу купить " + selectedItem + " (" + selectedPrice + ") на DragonWorld (IP: " + SERVER_IP + "). Мой ник: " + nick;
+            navigator.clipboard.writeText(msg).catch(()=>{});
+            showToast("✓ Заявка скопирована в буфер обмена!");
+            window.open(platform === 'tg' ? TG_LINK : VK_LINK, "_blank");
+            closeBuy();
+        }
+
+        fetch("https://mcstatus.io" + encodeURIComponent(SERVER_IP))
+            .then(r => r.json())
+            .then(data => {
+                const dot = document.getElementById('statusDot');
+                const txt = document.getElementById('onlineText');
+                if (data && data.online) {
+                    dot.classList.remove('off');
+                    txt.innerHTML = "Сервер онлайн: <b>" + data.players.online + " / " + data.players.max + "</b> игроков • IP: " + SERVER_IP;
+                } else {
+                    dot.classList.add('off');
+                    txt.innerText = "Сервер запускается или офлайн • IP: " + SERVER_IP;
+                }
+            })
+            .catch(() => { document.getElementById('onlineText').innerText = "Версия 1.21.4 • IP: " + SERVER_IP; });
+    </script>
+</body>
+</html>
